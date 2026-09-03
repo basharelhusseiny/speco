@@ -1,8 +1,0 @@
-{
-  "/gallery/page": "app/gallery/page.js",
-  "/page": "app/page.js",
-  "/contact/page": "app/contact/page.js",
-  "/about/page": "app/about/page.js",
-  "/products/eps-panels/page": "app/products/eps-panels/page.js",
-  "/products/prefab-panels/page": "app/products/prefab-panels/page.js"
-}
