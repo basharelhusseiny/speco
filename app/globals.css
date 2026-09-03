@@ -1,0 +1,308 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Self-hosted fonts (latin subsets) */
+@font-face {
+  font-family: 'KoHo';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/koho-500.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'KoHo';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/koho-600.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'KoHo';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/koho-700.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url('/fonts/roboto-300.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/roboto-400.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/roboto-500.woff2') format('woff2');
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 4%;
+    --foreground: 0 0% 91%;
+    --card: 0 0% 8%;
+    --card-foreground: 0 0% 91%;
+    --popover: 0 0% 6.5%;
+    --popover-foreground: 0 0% 91%;
+    --primary: 17 89% 54%;
+    --primary-foreground: 0 0% 4%;
+    --secondary: 0 0% 11%;
+    --secondary-foreground: 0 0% 91%;
+    --muted: 0 0% 11%;
+    --muted-foreground: 0 0% 62%;
+    --accent: 0 0% 11%;
+    --accent-foreground: 0 0% 91%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 100% / 0.08;
+    --input: 0 0% 16%;
+    --ring: 17 89% 54%;
+    --radius: 0.25rem;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    /* Native scroll only. No smooth-scroll libraries by client requirement. */
+    scroll-behavior: auto;
+  }
+
+  body {
+    @apply bg-ink font-body text-body-ondark antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading;
+  }
+
+  p {
+    line-height: 1.65;
+  }
+
+  ::selection {
+    background: #f15e22;
+    color: #0a0a0a;
+  }
+
+  :focus-visible {
+    outline: 2px solid #f15e22;
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  a, button, input, select, textarea {
+    touch-action: manipulation;
+  }
+
+}
+
+/* Custom sleek SPECO orange scrollbar */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: #f15e22 #141414;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #141414;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #f15e22;
+  border-radius: 9999px;
+  border: 2px solid #141414;
+  transition: background-color 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #ff763b;
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: #c2431a;
+}
+
+::-webkit-scrollbar-corner {
+  background: #141414;
+}
+
+@layer components {
+  .container-x {
+    @apply mx-auto w-full max-w-site px-5 sm:px-8 lg:px-12;
+  }
+
+  .section-pad {
+    padding-top: clamp(5rem, 10vw, 9rem);
+    padding-bottom: clamp(5rem, 10vw, 9rem);
+  }
+
+  .h-display {
+    @apply font-heading font-bold uppercase;
+    font-size: clamp(2.1rem, 8.5vw, 6rem);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+  }
+
+  .h-section {
+    @apply font-heading font-semibold;
+    font-size: clamp(1.75rem, 3.5vw, 2.75rem);
+    line-height: 1.12;
+    letter-spacing: -0.01em;
+  }
+
+  /* Eyebrow label: uppercase KoHo, orange, 0.12em tracking, 32px rule */
+  .eyebrow {
+    @apply font-heading text-xs font-semibold uppercase;
+    letter-spacing: 0.12em;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .eyebrow::before {
+    content: '';
+    display: block;
+    width: 32px;
+    height: 2px;
+    background: currentColor;
+    flex-shrink: 0;
+  }
+  .eyebrow-dark {
+    color: #f15e22;
+  }
+  /* Darker orange on light surfaces keeps 4.5:1 contrast for small text */
+  .eyebrow-light {
+    color: #c2431a;
+  }
+
+  .card-lift {
+    transition: transform 250ms ease-out, box-shadow 250ms ease-out, border-color 250ms ease-out;
+  }
+  .card-lift:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 40px -16px rgba(0, 0, 0, 0.5);
+  }
+
+  .img-frame {
+    overflow: hidden;
+  }
+  .img-frame img {
+    transition: transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .img-frame:hover img {
+    transform: scale(1.04);
+  }
+
+  /* Animated underline for text links */
+  .link-underline {
+    position: relative;
+  }
+  .link-underline::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 100%;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 300ms ease-out;
+  }
+  .link-underline:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+}
+
+/* Page transition: outgoing 200ms, incoming 300ms */
+.page-fade-out {
+  opacity: 0;
+  transition: opacity 200ms ease-in;
+}
+.page-fade-in {
+  opacity: 1;
+  transition: opacity 300ms ease-out;
+}
+
+/* Header logo permanently visible */
+.header-logo {
+  opacity: 1;
+}
+
+/* Contact hero: load-time reveal for title lines and subtitle.
+   Elements start hidden via the keyframe's `both` fill, then stagger up. */
+@keyframes heroTextReveal {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.hero-text-reveal .eyebrow,
+.hero-text-reveal h1 > span,
+.hero-text-reveal h1 + p,
+.hero-text-reveal h1 ~ p {
+  animation: heroTextReveal 550ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.hero-text-reveal .eyebrow {
+  animation-delay: 100ms;
+}
+.hero-text-reveal h1 > span:nth-child(1) {
+  animation-delay: 200ms;
+}
+.hero-text-reveal h1 > span:nth-child(2) {
+  animation-delay: 320ms;
+}
+.hero-text-reveal h1 > span:nth-child(3) {
+  animation-delay: 440ms;
+}
+.hero-text-reveal h1 ~ p {
+  animation-delay: 560ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-lift:hover {
+    transform: none;
+    box-shadow: none;
+  }
+  .img-frame img,
+  .img-frame:hover img {
+    transition: none;
+    transform: none;
+  }
+  .link-underline::after {
+    transition: none;
+  }
+  .page-fade-out,
+  .page-fade-in {
+    transition: none;
+  }
+  .header-logo {
+    transition: none;
+  }
+  .hero-text-reveal .eyebrow,
+  .hero-text-reveal h1 > span,
+  .hero-text-reveal h1 + p,
+  .hero-text-reveal h1 ~ p {
+    animation: none;
+  }
+}
