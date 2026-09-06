@@ -1,35 +1,43 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useSyncExternalStore } from 'react'
+
+function subscribeMobile(callback: () => void) {
+  if (typeof window === 'undefined') return () => {}
+  const mq = window.matchMedia('(max-width: 767px)')
+  mq.addEventListener('change', callback)
+  return () => mq.removeEventListener('change', callback)
+}
+
+function getMobileSnapshot(): boolean {
+  return typeof window !== 'undefined' && window.matchMedia('(max-width: 767px)').matches
+}
+
+function getServerMobileSnapshot(): boolean {
+  return false
+}
 
 /** True when the viewport is below the md breakpoint (768px). */
 export function useIsMobile(): boolean {
-  const [isMobile, setIsMobile] = useState<boolean>(
-    () => typeof window !== 'undefined' && window.matchMedia('(max-width: 767px)').matches,
-  )
+  return useSyncExternalStore(subscribeMobile, getMobileSnapshot, getServerMobileSnapshot)
+}
 
-  useEffect(() => {
-    const mq = window.matchMedia('(max-width: 767px)')
-    const onChange = (e: MediaQueryListEvent) => setIsMobile(e.matches)
-    mq.addEventListener('change', onChange)
-    return () => mq.removeEventListener('change', onChange)
-  }, [])
+function subscribeReduced(callback: () => void) {
+  if (typeof window === 'undefined') return () => {}
+  const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
+  mq.addEventListener('change', callback)
+  return () => mq.removeEventListener('change', callback)
+}
 
-  return isMobile
+function getReducedSnapshot(): boolean {
+  return typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+}
+
+function getServerReducedSnapshot(): boolean {
+  return false
 }
 
 /** True when the user prefers reduced motion. */
 export function usePrefersReducedMotion(): boolean {
-  const [reduced, setReduced] = useState<boolean>(
-    () => typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches,
-  )
-
-  useEffect(() => {
-    const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
-    const onChange = (e: MediaQueryListEvent) => setReduced(e.matches)
-    mq.addEventListener('change', onChange)
-    return () => mq.removeEventListener('change', onChange)
-  }, [])
-
-  return reduced
+  return useSyncExternalStore(subscribeReduced, getReducedSnapshot, getServerReducedSnapshot)
 }

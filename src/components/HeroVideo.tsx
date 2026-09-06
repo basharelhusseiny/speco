@@ -121,6 +121,7 @@ export function HeroVideo({
         style={{ objectPosition: isMobile ? (mobileObjectPosition ?? 'center 60%') : 'center top' }}
         src={src}
         poster={poster}
+        autoPlay
         muted
         playsInline
         disablePictureInPicture
