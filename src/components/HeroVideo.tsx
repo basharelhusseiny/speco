@@ -1,7 +1,7 @@
 'use client'
 
-import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react'
-import { Play } from 'lucide-react'
+import { useCallback, useEffect, useRef, type ReactNode } from 'react'
+
 import { useHero } from '@/lib/hero-context'
 import { useIsMobile, usePrefersReducedMotion } from '@/hooks/useIsMobile'
 
@@ -68,7 +68,7 @@ export function HeroVideo({
   const { setHeroEnded } = useHero()
   const videoRef = useRef<HTMLVideoElement>(null)
   const loopTimer = useRef<number | undefined>(undefined)
-  const [blocked, setBlocked] = useState(false)
+
 
   const variant = isMobile ? 'mobile' : 'desktop'
   const src = isMobile && mobileVideo ? mobileVideo : `/assets/video/${video}-${variant}.mp4`
@@ -86,7 +86,7 @@ export function HeroVideo({
     el.muted = true
     el.defaultMuted = true
     el.setAttribute('muted', '')
-    el.play().catch(() => setBlocked(true))
+    el.play().catch(() => {})
   }, [video, src, reducedMotion])
 
   const finish = useCallback(() => setHeroEnded(true), [setHeroEnded])
@@ -101,11 +101,7 @@ export function HeroVideo({
     }
   }, [loop, reducedMotion, finish])
 
-  const manualPlay = () => {
-    const el = videoRef.current
-    if (!el) return
-    el.play().then(() => setBlocked(false)).catch(() => {})
-  }
+
 
   return (
     <section
@@ -144,17 +140,7 @@ export function HeroVideo({
         }}
       />
 
-      {/* Tap-to-play fallback if the browser blocks autoplay */}
-      {blocked && (
-        <button
-          type="button"
-          onClick={manualPlay}
-          aria-label="Play intro video"
-          className="absolute left-1/2 top-1/2 z-20 flex h-16 w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-white/40 bg-black/40 text-white backdrop-blur-sm transition-colors hover:border-speco hover:text-speco"
-        >
-          <Play className="ml-1 h-7 w-7" aria-hidden="true" />
-        </button>
-      )}
+
 
       {/* Content: top of frame or vertically centered on mobile, bottom-left or centered on desktop */}
       <div
