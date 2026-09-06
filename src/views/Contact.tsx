@@ -144,6 +144,9 @@ export default function Contact() {
     <>
       <HeroVideo
         video="contact-hero"
+        mobileVideo="/assets/video/ContactUsPageHeroMobile.MP4"
+        mobileObjectPosition="center center"
+        loop
         eyebrow="Direct Line · Juba Factory"
         titleLines={["Let's Build Together"]}
         sub="Get in touch for factory-direct material supply, project consultations, or any inquiries about our innovative building systems in South Sudan."

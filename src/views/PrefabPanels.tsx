@@ -1,4 +1,4 @@
-﻿'use client'
+'use client'
 
 import { ShieldCheck, Feather, Palette, Package, CheckCircle2, ArrowUpRight, ThermometerSun, Zap, CloudRain, Flame, LayoutGrid, Sparkles } from 'lucide-react'
 import { HeroVideo } from '@/components/HeroVideo'
@@ -37,6 +37,24 @@ const roofingBenefits = [
   { icon: Package, title: 'Complete System', copy: 'Full range of accessories for a secure, watertight installation' },
 ]
 
+const msfCompletedImages = [
+  {
+    src: '/assets/images/projects/MSFPrefabproject-1.jpeg',
+    alt: 'MSF warehouse, Tujur: Completed warehouse facade and entrance',
+    caption: 'Completed warehouse front elevation & entrance',
+  },
+  {
+    src: '/assets/images/projects/MSFPrefabproject-2.jpeg',
+    alt: 'MSF warehouse, Tujur: Assembled sandwich panel walls and corner detail',
+    caption: 'Assembled insulated panel walls & corner detail',
+  },
+  {
+    src: '/assets/images/projects/MSFPrefabproject-3.jpeg',
+    alt: 'MSF warehouse, Tujur: Full completed warehouse structure standing on remote site',
+    caption: 'Full completed warehouse structure on remote site',
+  },
+]
+
 export default function PrefabPanels() {
   usePageMeta({
     title: 'Prefabricated Sandwich Panels & Roofing | SPECO Building Technology',
@@ -51,6 +69,7 @@ export default function PrefabPanels() {
       <HeroVideo
         video="prefab-hero"
         loop
+        mobileAlign="center"
         eyebrow="Sandwich Panels & Roofing · South Sudan"
         titleLines={['Changing the Construction Culture of South Sudan']}
         sub="Prefabricated Sandwich Panels & Roofing — Engineered composite panels and roofing solutions for industrial, commercial, and residential construction."
@@ -369,13 +388,31 @@ export default function PrefabPanels() {
             </p>
           </div>
 
-          <ol className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {msfTujurImages.map((im, i) => (
-              <li key={im.path}>
-                <figure className="group overflow-hidden rounded-sm border border-white/[0.08] bg-surface-dark transition-all duration-300 hover:border-speco/40">
-                  <div className={`img-frame relative ${im.orientation === 'portrait' ? 'aspect-[3/4]' : 'aspect-[4/3]'} overflow-hidden`}>
-                    <ResponsiveImage image={im} />
+          {/* After Installation — Completed Warehouse */}
+          <div className="mt-12">
+            <div className="flex items-center gap-3">
+              <span className="inline-flex items-center gap-2 rounded-full border border-speco/30 bg-speco/10 px-3.5 py-1 font-heading text-xs font-semibold uppercase tracking-wider text-speco">
+                <span className="h-1.5 w-1.5 rounded-full bg-speco animate-pulse" />
+                After Installation · Completed Structure
+              </span>
+              <span className="text-xs text-body-ondark/50">3 views</span>
+            </div>
+
+            <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {msfCompletedImages.map((im, i) => (
+                <figure key={im.src} className="group overflow-hidden rounded-sm border border-white/[0.08] bg-surface-dark transition-all duration-300 hover:border-speco/40">
+                  <div className="img-frame relative aspect-[4/3] overflow-hidden">
+                    <img
+                      src={im.src}
+                      alt={im.alt}
+                      loading="lazy"
+                      decoding="async"
+                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
                     <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-speco/30 via-speco to-speco/30 opacity-0 transition-opacity group-hover:opacity-100" />
+                    <div className="absolute bottom-2.5 left-2.5 rounded-xs border border-speco/20 bg-black/70 px-2 py-0.5 font-heading text-[11px] font-medium tracking-wide text-speco backdrop-blur-sm">
+                      Completed
+                    </div>
                   </div>
                   <figcaption className="flex items-baseline gap-3 border-t border-white/[0.06] px-5 py-3 text-sm text-body-ondark/60">
                     <span className="font-heading text-sm font-bold tabular-nums text-speco">
@@ -384,9 +421,38 @@ export default function PrefabPanels() {
                     {im.caption}
                   </figcaption>
                 </figure>
-              </li>
-            ))}
-          </ol>
+              ))}
+            </div>
+          </div>
+
+          {/* During Installation — 6-Stage Narrative */}
+          <div className="mt-14">
+            <div className="flex items-center gap-3">
+              <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.04] px-3.5 py-1 font-heading text-xs font-semibold uppercase tracking-wider text-white/80">
+                During Installation · Logistics & Build Sequence
+              </span>
+              <span className="text-xs text-body-ondark/50">6 stages</span>
+            </div>
+
+            <ol className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {msfTujurImages.map((im, i) => (
+                <li key={im.path}>
+                  <figure className="group overflow-hidden rounded-sm border border-white/[0.08] bg-surface-dark transition-all duration-300 hover:border-speco/40">
+                    <div className={`img-frame relative ${im.orientation === 'portrait' ? 'aspect-[3/4]' : 'aspect-[4/3]'} overflow-hidden`}>
+                      <ResponsiveImage image={im} />
+                      <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-speco/30 via-speco to-speco/30 opacity-0 transition-opacity group-hover:opacity-100" />
+                    </div>
+                    <figcaption className="flex items-baseline gap-3 border-t border-white/[0.06] px-5 py-3 text-sm text-body-ondark/60">
+                      <span className="font-heading text-sm font-bold tabular-nums text-speco">
+                        {String(i + 1).padStart(2, '0')}
+                      </span>
+                      {im.caption}
+                    </figcaption>
+                  </figure>
+                </li>
+              ))}
+            </ol>
+          </div>
         </div>
       </Band>
 

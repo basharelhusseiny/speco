@@ -13,6 +13,14 @@ interface HeroTitleLine {
 interface HeroVideoProps {
   /** Base video name, e.g. "home-hero" → /assets/video/home-hero-desktop.mp4 */
   video: string
+  /** Explicit mobile video path override, e.g. /assets/video/ContactUsPageHeroMobile.MP4 */
+  mobileVideo?: string
+  /** Explicit mobile poster path override */
+  mobilePoster?: string
+  /** Explicit mobile object-position, e.g. "center center" or "center 60%" */
+  mobileObjectPosition?: string
+  /** Mobile vertical alignment: 'top' (default) or 'center' */
+  mobileAlign?: 'top' | 'center'
   /** H1 lines, rendered uppercase in KoHo. A line may be an object to add classes (e.g. whitespace-nowrap). */
   titleLines: (string | HeroTitleLine)[]
   tagline?: string
@@ -40,7 +48,21 @@ interface HeroVideoProps {
  * - If a browser blocks autoplay (Low Power Mode), a tap-to-play button shows
  *   so the hero never looks frozen.
  */
-export function HeroVideo({ video, eyebrow, titleLines, tagline, sub, children, align = 'bottom', loop = false, revealText = false }: HeroVideoProps) {
+export function HeroVideo({
+  video,
+  mobileVideo,
+  mobilePoster,
+  mobileObjectPosition,
+  mobileAlign = 'top',
+  eyebrow,
+  titleLines,
+  tagline,
+  sub,
+  children,
+  align = 'bottom',
+  loop = false,
+  revealText = false,
+}: HeroVideoProps) {
   const isMobile = useIsMobile()
   const reducedMotion = usePrefersReducedMotion()
   const { setHeroEnded } = useHero()
@@ -49,8 +71,8 @@ export function HeroVideo({ video, eyebrow, titleLines, tagline, sub, children, 
   const [blocked, setBlocked] = useState(false)
 
   const variant = isMobile ? 'mobile' : 'desktop'
-  const src = `/assets/video/${video}-${variant}.mp4`
-  const poster = `/assets/video/${video}-poster${isMobile ? '-mobile' : ''}.jpg`
+  const src = isMobile && mobileVideo ? mobileVideo : `/assets/video/${video}-${variant}.mp4`
+  const poster = isMobile && mobilePoster ? mobilePoster : `/assets/video/${video}-poster${isMobile ? '-mobile' : ''}.jpg`
 
   useEffect(() => {
     setHeroEnded(reducedMotion)
@@ -96,7 +118,7 @@ export function HeroVideo({ video, eyebrow, titleLines, tagline, sub, children, 
         key={src}
         ref={videoRef}
         className="absolute inset-0 h-full w-full object-cover"
-        style={{ objectPosition: isMobile ? 'center 60%' : 'center top' }}
+        style={{ objectPosition: isMobile ? (mobileObjectPosition ?? 'center 60%') : 'center top' }}
         src={src}
         poster={poster}
         muted
@@ -114,7 +136,9 @@ export function HeroVideo({ video, eyebrow, titleLines, tagline, sub, children, 
         aria-hidden="true"
         style={{
           background: isMobile
-            ? 'linear-gradient(180deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.35) 40%, rgba(0,0,0,0.1) 65%, rgba(0,0,0,0.3) 100%)'
+            ? mobileAlign === 'center'
+              ? 'linear-gradient(180deg, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0.7) 100%)'
+              : 'linear-gradient(180deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.35) 40%, rgba(0,0,0,0.1) 65%, rgba(0,0,0,0.3) 100%)'
             : 'linear-gradient(180deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.25) 45%, rgba(0,0,0,0.7) 100%)',
         }}
       />
@@ -131,9 +155,11 @@ export function HeroVideo({ video, eyebrow, titleLines, tagline, sub, children, 
         </button>
       )}
 
-      {/* Content: top of frame on mobile (compact responsive font leaves footage clear below), bottom-left on desktop */}
+      {/* Content: top of frame or vertically centered on mobile, bottom-left or centered on desktop */}
       <div
-        className={`container-x relative z-10 flex h-full flex-col px-5 pt-20 sm:pt-24 md:justify-end md:pb-24 md:pt-36 lg:px-12 ${
+        className={`container-x relative z-10 flex h-full flex-col px-5 ${
+          mobileAlign === 'center' ? 'justify-center py-20' : 'pt-20 sm:pt-24'
+        } md:justify-end md:pb-24 md:pt-36 lg:px-12 ${
           align === 'left' ? 'md:justify-center md:pb-0' : ''
         }`}
       >

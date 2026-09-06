@@ -73,6 +73,7 @@ export default function About() {
       <HeroVideo
         video="about-hero"
         loop
+        mobileAlign="center"
         eyebrow="About SPECO Building Technology"
         titleLines={['Pioneering Modern Construction', { text: 'In South Sudan', className: 'whitespace-nowrap' }]}
         sub="Founded in 2023, SPECO Building Technology is at the forefront of the construction revolution in East Africa — manufacturing locally, building smarter."
@@ -169,20 +170,26 @@ export default function About() {
                 <div key={m.year} className="group relative flex gap-5">
                   {/* Vertical connector line */}
                   {i < 3 && (
-                    <div className="absolute left-[19px] top-10 h-[calc(100%+2rem)] w-[2px] bg-black/[0.06]" />
+                    <div className="absolute left-[19px] top-10 h-[calc(100%+2rem)] w-[2px] bg-black/[0.06] transition-colors duration-300 group-hover:bg-speco/25" />
                   )}
                   {/* Circle node */}
-                  <div className="relative mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 border-speco/30 bg-white shadow-sm transition-all duration-300 group-hover:border-speco group-hover:bg-speco">
+                  <div className="relative mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 border-speco/30 bg-white shadow-sm transition-all duration-300 group-hover:scale-105 group-hover:border-speco group-hover:bg-speco group-hover:shadow-[0_0_16px_rgba(241,94,34,0.35)]">
                     <span className="font-heading text-[10px] font-bold text-speco transition-colors group-hover:text-white">
                       {m.year.slice(-2)}
                     </span>
                   </div>
-                  <div className="pb-2">
+                  {/* Content card with moving animated border on hover */}
+                  <div className="relative flex-1 overflow-hidden rounded-sm border border-black/[0.06] bg-surface-light/40 p-4 transition-all duration-300 group-hover:border-speco/30 group-hover:bg-white group-hover:shadow-[0_12px_28px_-10px_rgba(241,94,34,0.12)]">
+                    {/* Animated moving top border */}
+                    <div className="absolute left-0 top-0 h-[2px] w-0 bg-gradient-to-r from-speco/40 via-speco to-speco transition-all duration-500 ease-out group-hover:w-full" />
+                    {/* Animated moving bottom border */}
+                    <div className="absolute bottom-0 right-0 h-[2px] w-0 bg-gradient-to-l from-speco/40 via-speco to-speco transition-all duration-500 ease-out group-hover:w-full" />
+
                     <div className="flex flex-wrap items-baseline gap-2">
-                      <span className="font-heading text-xs font-semibold uppercase tracking-[0.12em] text-speco-dark">
+                      <span className="font-heading text-xs font-semibold uppercase tracking-[0.12em] text-speco-dark transition-colors group-hover:text-speco">
                         {m.year}
                       </span>
-                      <h3 className="font-heading text-base font-bold text-body-dark">
+                      <h3 className="font-heading text-base font-bold text-body-dark transition-colors group-hover:text-speco-dark">
                         {m.title}
                       </h3>
                     </div>
